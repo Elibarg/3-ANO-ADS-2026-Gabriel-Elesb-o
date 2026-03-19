@@ -1,39 +1,43 @@
+// atividade5.js - Rede Social com Grafo e BFS
+
 class GrafoRedeSocial {
     constructor() {
-        this.listaAdj = new Map(); // usuário -> conjunto de amigos
+        this.adj = new Map(); // mapa: usuário -> lista de amigos
     }
 
     adicionarUsuario(usuario) {
-        if (!this.listaAdj.has(usuario)) {
-            this.listaAdj.set(usuario, new Set());
+        if (!this.adj.has(usuario)) {
+            this.adj.set(usuario, []);
         }
     }
 
     adicionarAmizade(usuario1, usuario2) {
         this.adicionarUsuario(usuario1);
         this.adicionarUsuario(usuario2);
-        this.listaAdj.get(usuario1).add(usuario2);
-        this.listaAdj.get(usuario2).add(usuario1);
+        this.adj.get(usuario1).push(usuario2);
+        this.adj.get(usuario2).push(usuario1);
     }
 
-    // Busca em largura para menor distância (número de arestas)
-    distanciaMinima(inicio, destino) {
-        if (!this.listaAdj.has(inicio) || !this.listaAdj.has(destino)) {
+    // Retorna a menor distância (número de arestas) entre usuario1 e usuario2 usando BFS
+    distanciaMinima(usuario1, usuario2) {
+        if (!this.adj.has(usuario1) || !this.adj.has(usuario2)) {
             return -1; // um dos usuários não existe
         }
-        if (inicio === destino) return 0;
+        if (usuario1 === usuario2) return 0;
 
         const visitados = new Set();
-        const fila = [{ usuario: inicio, distancia: 0 }];
-        visitados.add(inicio);
+        const fila = [[usuario1, 0]]; // [usuário, distância]
+        visitados.add(usuario1);
 
         while (fila.length > 0) {
-            const { usuario, distancia } = fila.shift();
-            for (let amigo of this.listaAdj.get(usuario)) {
-                if (amigo === destino) return distancia + 1;
+            const [atual, dist] = fila.shift();
+            for (const amigo of this.adj.get(atual)) {
+                if (amigo === usuario2) {
+                    return dist + 1;
+                }
                 if (!visitados.has(amigo)) {
                     visitados.add(amigo);
-                    fila.push({ usuario: amigo, distancia: distancia + 1 });
+                    fila.push([amigo, dist + 1]);
                 }
             }
         }
@@ -41,25 +45,33 @@ class GrafoRedeSocial {
     }
 
     exibirRede() {
-        console.log('Rede Social:');
-        for (let [usuario, amigos] of this.listaAdj.entries()) {
-            console.log(`${usuario} -> ${Array.from(amigos).join(', ')}`);
+        console.log("Rede Social:");
+        for (const [usuario, amigos] of this.adj.entries()) {
+            console.log(`  ${usuario} -> ${amigos.join(", ")}`);
         }
     }
 }
 
-// Teste
+// ==================== Simulação ====================
 const rede = new GrafoRedeSocial();
-rede.adicionarAmizade('Alice', 'Bob');
-rede.adicionarAmizade('Alice', 'Carol');
-rede.adicionarAmizade('Bob', 'David');
-rede.adicionarAmizade('Carol', 'Eve');
-rede.adicionarAmizade('David', 'Eve');
-rede.adicionarAmizade('Eve', 'Frank');
+
+// Adicionar usuários e amizades
+rede.adicionarAmizade("Alice", "Bob");
+rede.adicionarAmizade("Alice", "Carol");
+rede.adicionarAmizade("Bob", "David");
+rede.adicionarAmizade("Carol", "David");
+rede.adicionarAmizade("David", "Eve");
+rede.adicionarAmizade("Eve", "Frank");
+rede.adicionarAmizade("Frank", "Grace");
+rede.adicionarAmizade("Grace", "Heidi");
+
 rede.exibirRede();
 
-console.log('\n--- Menor distância ---');
-console.log('Alice -> Eve:', rede.distanciaMinima('Alice', 'Eve')); // 2 (Alice-Carol-Eve)
-console.log('Bob -> Frank:', rede.distanciaMinima('Bob', 'Frank')); // 3 (Bob-David-Eve-Frank)
-console.log('Alice -> Alice:', rede.distanciaMinima('Alice', 'Alice')); // 0
-console.log('Alice -> George:', rede.distanciaMinima('Alice', 'George')); // -1
+// Testar distâncias
+console.log("\n=== Distâncias ===");
+console.log("Alice -> Bob:", rede.distanciaMinima("Alice", "Bob")); // 1
+console.log("Alice -> David:", rede.distanciaMinima("Alice", "David")); // 2 (Alice-Bob-David ou Alice-Carol-David)
+console.log("Alice -> Eve:", rede.distanciaMinima("Alice", "Eve")); // 3
+console.log("Alice -> Heidi:", rede.distanciaMinima("Alice", "Heidi")); // 4
+console.log("Alice -> Carlos (inexistente):", rede.distanciaMinima("Alice", "Carlos")); // -1
+console.log("Bob -> Bob:", rede.distanciaMinima("Bob", "Bob")); // 0

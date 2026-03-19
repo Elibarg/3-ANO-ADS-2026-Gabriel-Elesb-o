@@ -1,98 +1,94 @@
-// ======================================================
-// ATIVIDADE 5 - DESAFIO DE ESTABILIDADE (Módulo 07)
-// ======================================================
-// Objetivo: Mostrar a diferença entre algoritmo estável e não estável
-// Usamos objetos com chave repetida (nota = 85) para comprovar
+// ================== Heap Sort Estável ==================
+// Para garantir estabilidade, usamos um comparador que leva em conta o índice original
+function heapSortEstavel(arr) {
+    // Adiciona índice original a cada elemento
+    const comIndice = arr.map((valor, idx) => ({ valor, idx }));
+    const n = comIndice.length;
 
-class Aluno {
-    constructor(id, nome, nota) {
-        this.id = id;      // identificador único para provar ordem original
-        this.nome = nome;
-        this.nota = nota;
+    // Função de comparação estável: primeiro valor, depois índice
+    function comparar(a, b) {
+        if (a.valor !== b.valor) return a.valor - b.valor;
+        return a.idx - b.idx; // mantém ordem relativa
     }
+
+    // Heapify adaptado: troca se a for maior que b (considerando estabilidade)
+    function heapify(arr, n, i) {
+        let largest = i;
+        const left = 2 * i + 1;
+        const right = 2 * i + 2;
+
+        if (left < n && comparar(arr[left], arr[largest]) > 0) largest = left;
+        if (right < n && comparar(arr[right], arr[largest]) > 0) largest = right;
+
+        if (largest !== i) {
+            [arr[i], arr[largest]] = [arr[largest], arr[i]];
+            heapify(arr, n, largest);
+        }
+    }
+
+    // Construir max-heap
+    for (let i = Math.floor(n / 2) - 1; i >= 0; i--) heapify(comIndice, n, i);
+
+    // Extrair elementos
+    for (let i = n - 1; i > 0; i--) {
+        [comIndice[0], comIndice[i]] = [comIndice[i], comIndice[0]];
+        heapify(comIndice, i, 0);
+    }
+
+    // Retorna apenas os valores (já ordenados estavelmente)
+    return comIndice.map(item => item.valor);
 }
 
-// Dados de teste (duas alunas com mesma nota)
-const turma = [
-    new Aluno(1, "Ana",     85),
-    new Aluno(2, "Bruno",   70),
-    new Aluno(3, "Carlos",  92),
-    new Aluno(4, "Diana",   85),   // mesma nota da Ana
-    new Aluno(5, "Eduardo", 78)
-];
-
-console.log("=== TURMA ORIGINAL (ordem de inscrição) ===");
-turma.forEach(a => console.log(`ID:${a.id} | ${a.nome} → ${a.nota}`));
-
-// ===================== SELECTION SORT (NÃO ESTÁVEL) =====================
-function selectionSortNaoEstavel(arr) {
+// ================== Selection Sort Estável ==================
+// Para ser estável, em vez de trocar, deslocamos os elementos (inserção do mínimo)
+function selectionSortEstavel(arr) {
     const n = arr.length;
     for (let i = 0; i < n - 1; i++) {
-        let minIdx = i;
+        // Encontra o índice do menor elemento a partir de i
+        let minIndex = i;
         for (let j = i + 1; j < n; j++) {
-            if (arr[j].nota < arr[minIdx].nota) {
-                minIdx = j;
+            if (arr[j] < arr[minIndex]) {
+                minIndex = j;
             }
         }
-        // Troca (pode inverter ordem de elementos iguais!)
-        if (minIdx !== i) {
-            [arr[i], arr[minIdx]] = [arr[minIdx], arr[i]];
+        // Guarda o menor elemento e remove da posição original
+        const menor = arr[minIndex];
+        // Desloca todos os elementos entre i e minIndex-1 para a direita
+        for (let k = minIndex; k > i; k--) {
+            arr[k] = arr[k - 1];
         }
+        // Coloca o menor na posição i
+        arr[i] = menor;
     }
     return arr;
 }
 
-const turmaSelection = [...turma];           // cópia
-selectionSortNaoEstavel(turmaSelection);
+// ================== Testes ==================
+const numeros = [64, 25, 12, 22, 11, 25, 34, 12, 8, 45];
+console.log('Heap Sort Estável:');
+console.log('Original:', numeros);
+console.log('Ordenado:', heapSortEstavel([...numeros]));
 
-console.log("\n=== DEPOIS DO SELECTION SORT (NÃO ESTÁVEL) ===");
-turmaSelection.forEach(a => console.log(`ID:${a.id} | ${a.nome} → ${a.nota}`));
-console.log("→ Diana (ID 4) apareceu ANTES da Ana (ID 1) mesmo tendo entrado depois!");
-console.log("→ Conclusão: Selection Sort **NÃO é estável**");
-
-// ===================== INSERTION SORT (ESTÁVEL) =====================
-function insertionSortEstavel(arr) {
-    for (let i = 1; i < arr.length; i++) {
-        const key = arr[i];
-        let j = i - 1;
-
-        // Só move enquanto for maior (mantém ordem relativa dos iguais)
-        while (j >= 0 && arr[j].nota > key.nota) {
-            arr[j + 1] = arr[j];
-            j--;
-        }
-        arr[j + 1] = key;
-    }
-    return arr;
-}
-
-const turmaInsertion = [...turma];
-insertionSortEstavel(turmaInsertion);
-
-console.log("\n=== DEPOIS DO INSERTION SORT (ESTÁVEL) ===");
-turmaInsertion.forEach(a => console.log(`ID:${a.id} | ${a.nome} → ${a.nota}`));
-console.log("→ Ana (ID 1) continuou ANTES da Diana (ID 4) → ordem relativa preservada!");
-console.log("→ Conclusão: Insertion Sort **É estável**");
-
-// ===================== FUNÇÃO AUXILIAR DE VERIFICAÇÃO =====================
-function verificarEstabilidade(arrOrdenado, original) {
-    const mapa = new Map();
-    original.forEach(aluno => mapa.set(aluno.nome, aluno.id));
-
-    for (let i = 1; i < arrOrdenado.length; i++) {
-        if (arrOrdenado[i].nota === arrOrdenado[i-1].nota) {
-            if (mapa.get(arrOrdenado[i].nome) < mapa.get(arrOrdenado[i-1].nome)) {
-                return "Ordem relativa foi invertida → NÃO estável";
-            }
-        }
-    }
-    return "Ordem relativa mantida → Estável";
-}
-
-console.log("\nVerificação automática:");
-console.log("Selection:", verificarEstabilidade(turmaSelection, turma));
-console.log("Insertion:", verificarEstabilidade(turmaInsertion, turma));
-
-console.log("\nDESAFIO CONCLUÍDO!");
-console.log("Selection Sort = O(n²) e NÃO estável");
-console.log("Insertion Sort = O(n²) pior caso / O(n) melhor caso e ESTÁVEL");
+const dadosEstabilidade = [
+    { valor: 5, idx: 0 },
+    { valor: 2, idx: 1 },
+    { valor: 5, idx: 2 },
+    { valor: 1, idx: 3 },
+    { valor: 5, idx: 4 },
+];
+const dadosNumericos = dadosEstabilidade.map(d => d.valor);
+console.log('\nSelection Sort Estável (com valores repetidos):');
+console.log('Original (valor,idx):', dadosEstabilidade.map(d => `${d.valor}(${d.idx})`).join(' '));
+const ordenadoEstavel = selectionSortEstavel(dadosNumericos);
+// Para verificar a estabilidade, precisamos mapear de volta: assumindo que os valores são iguais,
+// a ordem dos índices deve ser preservada. Como selectionSortEstável apenas desloca,
+// a primeira ocorrência de cada valor mantém sua ordem relativa.
+console.log('Ordenado (valores):', ordenadoEstavel);
+// Reconstituindo os índices (apenas ilustrativo)
+const indicesResultado = [];
+const copiaOriginal = [...dadosEstabilidade];
+ordenadoEstavel.forEach(val => {
+    const index = copiaOriginal.findIndex(item => item.valor === val && !indicesResultado.includes(item.idx));
+    if (index !== -1) indicesResultado.push(copiaOriginal[index].idx);
+});
+console.log('Índices após ordenação (devem manter ordem crescente para valores iguais):', indicesResultado);

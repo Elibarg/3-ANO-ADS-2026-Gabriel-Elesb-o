@@ -1,111 +1,114 @@
+// atividade2.js - Problema do Caixeiro Viajante (TSP)
+
 // ==================== Força Bruta (permutações) ====================
-function permutar(array) {
-    if (array.length <= 1) return [array];
-    const resultado = [];
-    for (let i = 0; i < array.length; i++) {
-        const atual = array[i];
-        const restante = array.slice(0, i).concat(array.slice(i + 1));
-        const permutasRestantes = permutar(restante);
-        for (let perm of permutasRestantes) {
-            resultado.push([atual, ...perm]);
+function tspForcaBruta(distancias) {
+    const n = distancias.length;
+    const cidades = Array.from({ length: n }, (_, i) => i);
+    let menorCaminho = null;
+    menorDistancia = Infinity;
+
+    // Função para gerar permutações (algoritmo de Heap)
+    function permutar(array, tamanho) {
+        if (tamanho === 1) {
+            // calcula distância total para essa permutação (fechando o ciclo)
+            let dist = 0;
+            for (let i = 0; i < n - 1; i++) {
+                dist += distancias[array[i]][array[i + 1]];
+            }
+            dist += distancias[array[n - 1]][array[0]]; // volta à origem
+            if (dist < menorDistancia) {
+                menorDistancia = dist;
+                menorCaminho = [...array];
+            }
+            return;
+        }
+
+        for (let i = 0; i < tamanho; i++) {
+            permutar(array, tamanho - 1);
+            if (tamanho % 2 === 0) {
+                [array[i], array[tamanho - 1]] = [array[tamanho - 1], array[i]];
+            } else {
+                [array[0], array[tamanho - 1]] = [array[tamanho - 1], array[0]];
+            }
         }
     }
-    return resultado;
+
+    permutar(cidades, n);
+    return { caminho: menorCaminho, distancia: menorDistancia };
 }
 
-function calcularDistanciaRota(rota, matrizDistancias) {
-    let distancia = 0;
-    for (let i = 0; i < rota.length - 1; i++) {
-        distancia += matrizDistancias[rota[i]][rota[i + 1]];
-    }
-    // voltar à cidade inicial
-    distancia += matrizDistancias[rota[rota.length - 1]][rota[0]];
-    return distancia;
-}
-
-function tspForcaBruta(cidades, matrizDistancias) {
-    const indices = cidades.map((_, i) => i);
-    const permutacoes = permutar(indices);
-    let melhorRota = null;
-    let menorDistancia = Infinity;
-    for (let perm of permutacoes) {
-        const dist = calcularDistanciaRota(perm, matrizDistancias);
-        if (dist < menorDistancia) {
-            menorDistancia = dist;
-            melhorRota = perm;
-        }
-    }
-    return {
-        rota: melhorRota.map(i => cidades[i]),
-        distancia: menorDistancia
-    };
-}
-
-// ==================== Vizinho Mais Próximo (Heurística) ====================
-function tspVizinhoMaisProximo(cidades, matrizDistancias, inicio = 0) {
-    const n = cidades.length;
+// ==================== Algoritmo do Vizinho Mais Próximo ====================
+function tspVizinhoMaisProximo(distancias, cidadeInicial = 0) {
+    const n = distancias.length;
     const visitadas = new Array(n).fill(false);
-    let rota = [inicio];
-    visitadas[inicio] = true;
-    let atual = inicio;
+    const caminho = [cidadeInicial];
+    visitadas[cidadeInicial] = true;
     let distanciaTotal = 0;
+    let atual = cidadeInicial;
 
     for (let passo = 1; passo < n; passo++) {
         let proxima = -1;
         let menorDist = Infinity;
         for (let i = 0; i < n; i++) {
-            if (!visitadas[i] && matrizDistancias[atual][i] < menorDist) {
-                menorDist = matrizDistancias[atual][i];
+            if (!visitadas[i] && distancias[atual][i] < menorDist) {
+                menorDist = distancias[atual][i];
                 proxima = i;
             }
         }
-        rota.push(proxima);
+        caminho.push(proxima);
         visitadas[proxima] = true;
         distanciaTotal += menorDist;
         atual = proxima;
     }
-    // voltar ao início
-    distanciaTotal += matrizDistancias[atual][inicio];
-    return {
-        rota: rota.map(i => cidades[i]),
-        distancia: distanciaTotal
-    };
+    // volta à cidade inicial
+    distanciaTotal += distancias[atual][cidadeInicial];
+    return { caminho, distancia: distanciaTotal };
 }
 
-// ==================== Teste ====================
-const cidades = ['A', 'B', 'C', 'D', 'E']; // 5 cidades
-const dist = [
+// ==================== Testes ====================
+// Matriz de distâncias simétrica para 5 cidades (exemplo)
+const dist5 = [
     [0, 2, 9, 10, 7],
-    [2, 0, 6, 8, 4],
-    [9, 6, 0, 3, 5],
-    [10, 8, 3, 0, 6],
-    [7, 4, 5, 6, 0]
+    [2, 0, 6, 4, 3],
+    [9, 6, 0, 8, 5],
+    [10, 4, 8, 0, 6],
+    [7, 3, 5, 6, 0]
 ];
 
-console.log('--- Força Bruta (5 cidades) ---');
-const exato = tspForcaBruta(cidades, dist);
-console.log('Melhor rota:', exato.rota.join(' -> '), '| Distância:', exato.distancia);
+console.log("=== TSP Força Bruta (5 cidades) ===");
+const resultadoExato = tspForcaBruta(dist5);
+console.log("Melhor caminho:", resultadoExato.caminho);
+console.log("Distância mínima:", resultadoExato.distancia);
 
-console.log('\n--- Vizinho Mais Próximo (5 cidades) ---');
-const heuristica = tspVizinhoMaisProximo(cidades, dist, 0);
-console.log('Rota encontrada:', heuristica.rota.join(' -> '), '| Distância:', heuristica.distancia);
+console.log("\n=== TSP Vizinho Mais Próximo (5 cidades) ===");
+const resultadoVMP = tspVizinhoMaisProximo(dist5);
+console.log("Caminho encontrado:", resultadoVMP.caminho);
+console.log("Distância:", resultadoVMP.distancia);
 
-// Para 10 cidades, a força bruta é inviável (10! = 3.6M). Testamos apenas o vizinho mais próximo.
-const cidades10 = ['A','B','C','D','E','F','G','H','I','J'];
-// Gerando matriz aleatória para teste (distâncias simétricas)
-function gerarMatrizAleatoria(n, maxDist = 20) {
-    const m = Array.from({ length: n }, () => Array(n).fill(0));
-    for (let i = 0; i < n; i++) {
-        for (let j = i+1; j < n; j++) {
-            const d = Math.floor(Math.random() * maxDist) + 1;
-            m[i][j] = d;
-            m[j][i] = d;
-        }
+// Comparação para 10 cidades (gerando matriz aleatória)
+console.log("\n=== Comparação para 10 cidades (aleatório) ===");
+const n = 10;
+const dist10 = Array.from({ length: n }, () =>
+    Array.from({ length: n }, () => Math.floor(Math.random() * 20) + 1)
+);
+// garantir simetria e zero na diagonal
+for (let i = 0; i < n; i++) {
+    dist10[i][i] = 0;
+    for (let j = i + 1; j < n; j++) {
+        dist10[j][i] = dist10[i][j];
     }
-    return m;
 }
-const dist10 = gerarMatrizAleatoria(10);
-console.log('\n--- Vizinho Mais Próximo (10 cidades) ---');
-const heur10 = tspVizinhoMaisProximo(cidades10, dist10, 0);
-console.log('Rota aproximada:', heur10.rota.join(' -> '));
-console.log('Distância aproximada:', heur10.distancia);
+
+console.log("Força bruta (pode demorar)...");
+console.time("Força Bruta 10");
+const exato10 = tspForcaBruta(dist10); // cuidado: 10! = 3.6M permutações, pode ser lento
+console.timeEnd("Força Bruta 10");
+
+console.log("Vizinho Mais Próximo:");
+console.time("VMP 10");
+const vmp10 = tspVizinhoMaisProximo(dist10);
+console.timeEnd("VMP 10");
+
+console.log("Distância exata:", exato10.distancia);
+console.log("Distância VMP:", vmp10.distancia);
+console.log("Diferença:", vmp10.distancia - exato10.distancia);
