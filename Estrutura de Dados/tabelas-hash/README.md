@@ -1,32 +1,38 @@
-# Tabelas Hash
+## Módulo 05 — Tabelas Hash
 
-Este módulo explora o conceito de hashing, funções de hash, tratamento de colisões e aplicações práticas de tabelas hash.
+Tabelas hash são estruturas projetadas para permitir acesso rápido a dados. A ideia é transformar uma chave em um índice por meio de uma função hash. Esse índice aponta para a posição onde o valor será armazenado ou recuperado. O módulo também aborda colisões, encadeamento e endereçamento aberto.
 
-## Estruturas implementadas
+## Como funciona
 
-- Funções de hash para inteiros e strings
-- Tabela hash com encadeamento (chaining)
-- Tabela hash com endereçamento aberto (probing linear)
-- Comparação de desempenho entre as duas técnicas
-- Dicionário simples (armazenar palavras e significados)
-- Análise de desempenho com diferentes tamanhos de tabela
-- Função de hash personalizada para strings
+Pense em uma tabela hash como um armário com várias gavetas numeradas. A função hash decide em qual gaveta um item será guardado. Se duas chaves diferentes forem parar na mesma gaveta, ocorre uma colisão.
 
-## Conceitos
+## Colisões
 
-### Hashing
-Técnica que mapeia chaves de tamanho arbitrário para índices de uma tabela de tamanho fixo.
+Colisão acontece quando duas chaves distintas resultam no mesmo índice. Isso não significa que a tabela hash falhou; significa apenas que a função hash precisou lidar com duas entradas competindo pelo mesmo espaço.
 
-### Colisão
-Quando duas chaves diferentes produzem o mesmo índice. Técnicas de resolução:
-- **Encadeamento**: cada posição contém uma lista de pares chave‑valor.
-- **Endereçamento aberto**: procura‑se outra posição livre (probing linear, quadrático, duplo hash).
+## Técnicas de resolução
 
-### Fator de carga (load factor)
-Razão entre número de elementos e tamanho da tabela. Influencia o desempenho.
+Encadeamento: cada posição da tabela guarda uma lista de elementos.
+Endereçamento aberto: quando há colisão, a estrutura procura outra posição livre na própria tabela.
 
-### Aplicações
-Dicionários, caches, bancos de dados, verificação de integridade.
+## Aplicações
+
+Tabelas hash são comuns em dicionários, caches, bancos de dados e sistemas que precisam recuperar dados com rapidez. O módulo mostra justamente por que essa estrutura é tão útil em situações em que desempenho importa.
+
+## Exemplo:
+
+## Vantagens
+Busca muito rápida → O(1)
+Inserção eficiente
+## Desvantagens
+Colisões
+Dependência da função hash
+## Por que isso acontece?
+
+Se muitas chaves caem no mesmo índice, vira uma lista → O(n)
+
+Bom para: buscas rápidas
+Ruim para: distribuição ruim de dados
 
 ## Linguagem
 

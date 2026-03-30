@@ -1,30 +1,31 @@
-# Algoritmos de Ordenação
+## Módulo 07 — Algoritmos de Ordenação
 
-Este módulo apresenta os principais algoritmos de ordenação, desde os simples (Selection, Insertion, Bubble) até os avançados (Merge, Quick, Heap). São abordadas características como complexidade, estabilidade e comparações de desempenho.
+Ordenar significa organizar elementos segundo uma regra, como crescente ou decrescente. O módulo mostra que a ordenação não é apenas um detalhe: ela influencia diretamente a eficiência de buscas, comparações e processamento de dados. Também apresenta conceitos como estabilidade e complexidade de tempo.
 
-## Algoritmos implementados
+## Selection Sort
 
-- Selection Sort (com contagem de comparações e trocas)
-- Insertion Sort (para strings)
-- Bubble Sort (análise de complexidade)
-- Merge Sort
-- Quick Sort (versões com pivô fixo e mediana de três)
-- Heap Sort
-- Versões estáveis de Heap Sort e Selection Sort (desafio)
+O algoritmo percorre a lista inteira para encontrar o menor elemento e colocá-lo na posição correta. Depois repete o processo para o restante da lista. É fácil de entender, mas não é eficiente para listas grandes, porque sua complexidade é quadrática.
 
-## Conceitos
+## Ruim:
+Sempre O(n²)
 
-### Estabilidade
-Um algoritmo é estável se mantém a ordem relativa de elementos com chaves iguais.
+## Insertion Sort
 
-### Complexidades
-- **Simples**: O(n²) – Selection, Insertion, Bubble
-- **Avançados**: O(n log n) – Merge, Quick (médio), Heap
+Esse método constrói a lista ordenada aos poucos. Ele pega um elemento por vez e o insere na posição correta dentro da parte já ordenada. Funciona bem quando os dados já estão quase ordenados.
 
-### Comparações
-- Merge Sort: estável, sempre O(n log n)
-- Quick Sort: instável, O(n log n) médio, O(n²) pior caso
-- Heap Sort: instável, O(n log n) no local
+## Melhor caso:
+O(n)
+## Pior caso
+O(n²)
+
+## Bubble Sort
+
+Nesse algoritmo, elementos vizinhos são comparados e trocados de lugar quando estão fora de ordem. O processo se repete até que nenhuma troca seja mais necessária. É um algoritmo simples para aprender o conceito de ordenação, mas pouco eficiente na prática.
+
+## Melhor caso 
+O(n) (se já ordenado)
+## Pior caso 
+O(n²)
 
 ## Linguagem
 

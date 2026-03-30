@@ -1,38 +1,64 @@
-# Estruturas de Dados Não Lineares
+## Módulo 04 — Estruturas de Dados Não Lineares
 
-Este módulo aborda árvores e grafos, estruturas fundamentais para representar hierarquias e relações complexas.
+Estruturas não lineares são aquelas em que os elementos não seguem uma sequência única. Em vez disso, os dados podem se organizar de forma hierárquica ou em rede, permitindo relações mais complexas entre os elementos. É o caso das árvores, árvores binárias, árvores binárias de busca e grafos.
 
-## Estruturas implementadas
+## Árvores
 
-- Árvore binária (percursos in‑order, pre‑order, post‑order)
-- Árvore binária de busca (BST) com inserção, busca e remoção
-- Árvore AVL (inserção e remoção com balanceamento)
-- Max‑Heap e fila de prioridade
-- Grafo com lista de adjacência e algoritmos DFS, BFS
-- Dijkstra (caminho mínimo) e Floyd‑Warshall (todos os pares)
+Uma árvore é uma estrutura hierárquica composta por nós. Existe um nó inicial chamado raiz, e a partir dele surgem os demais nós. Os nós que não possuem filhos são chamados folhas. A árvore é uma boa forma de representar relações de superioridade, organização ou dependência.
 
-## Conceitos
+Exemplo conceitual: imagine uma organização empresarial. A diretoria fica no topo, abaixo dela vêm os setores, e abaixo dos setores vêm os funcionários. Essa é uma estrutura em árvore.
 
-### Árvores
-Estruturas hierárquicas formadas por nós. A raiz é o nó principal; folhas são nós sem filhos.
+## Vantagens
+Representa hierarquia naturalmente
+Boa para organização
+## Desvantagens
+Pode ficar desbalanceada
+Busca pode degradar
 
-### Árvore Binária de Busca (BST)
-Para cada nó, os valores da subárvore esquerda são menores e os da direita são maiores.
+## Árvores binárias
 
-### Árvores Balanceadas (AVL)
-Garantem altura O(log n) através de rotações após inserções/remoções.
+Uma árvore binária é uma árvore em que cada nó pode ter no máximo dois filhos: um à esquerda e outro à direita. Os percursos mais conhecidos são:
 
-### Heaps
-Árvores binárias completas onde cada nó é maior (max‑heap) ou menor (min‑heap) que os filhos. Úteis para filas de prioridade.
+In-order: esquerda, nó atual, direita.
+Pre-order: nó atual, esquerda, direita.
+Post-order: esquerda, direita, nó atual.
 
-### Grafos
-Conjunto de vértices conectados por arestas. Podem ser direcionados ou não, ponderados ou não.
+Esses percursos são importantes porque definem a ordem em que os nós serão visitados.
 
-Algoritmos:
-- DFS (busca em profundidade)
-- BFS (busca em largura)
-- Dijkstra (caminho mínimo com pesos não negativos)
-- Floyd‑Warshall (caminhos mínimos entre todos os pares)
+## Exemplo
+// esquerda < raiz < direita
+
+## Vantagens
+Busca eficiente → O(log n) (se balanceada)
+## Desvantagens
+Pode virar lista → O(n)
+## Por que isso acontece?
+
+Se os dados forem inseridos em ordem, a árvore perde o balanceamento.
+
+Bom para: buscas ordenadas
+Ruim para: dados já ordenados
+
+## Árvores binárias de busca
+
+A árvore binária de busca organiza os valores de forma que os elementos menores fiquem à esquerda e os maiores à direita. Essa regra facilita buscas, inserções e remoções quando a árvore está bem balanceada. Em termos práticos, ela acelera a localização de dados porque reduz o número de comparações necessárias.
+
+## Grafos
+
+Grafos são estruturas formadas por vértices e arestas. Eles são usados quando precisamos representar relações complexas, como conexões entre pessoas, rotas entre cidades ou dependências entre tarefas. Diferente da árvore, o grafo não precisa seguir uma hierarquia fixa.
+
+## Vantagens
+Extremamente flexível
+Modela problemas reais
+## Desvantagens
+Complexidade alta
+Algoritmos custosos
+## Por que isso acontece?
+
+Cada nó pode se conectar com vários outros → crescimento exponencial de caminhos.
+
+Bom para: redes, rotas
+Ruim para: simplicidade e performance direta
 
 ## Linguagem
 

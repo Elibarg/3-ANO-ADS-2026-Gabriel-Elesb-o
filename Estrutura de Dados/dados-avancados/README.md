@@ -1,28 +1,38 @@
-# Estruturas de Dados Avançadas
+## Módulo 06 — Estruturas de Dados Avançadas
 
-Este módulo aborda estruturas de dados sofisticadas utilizadas em algoritmos de grafos e sistemas de banco de dados, incluindo conjuntos disjuntos (Union-Find) e árvores B e B+.
+Este módulo apresenta estruturas usadas em contextos mais avançados, especialmente quando é necessário lidar com grandes volumes de dados ou com algoritmos de grafos e armazenamento em disco. Entre os temas estão Union-Find, árvores B e árvores B+.
 
-## Estruturas implementadas
+## Union-Find
 
-- Conjuntos Disjuntos (Union-Find) com path compression e union by rank
-- Aplicação: Algoritmo de Kruskal para árvore geradora mínima
-- Árvore B (simplificada) com inserção e remoção
-- Árvore B+ (simplificada) com inserção
-- Análise comparativa entre árvores B e AVL
+Union-Find, também chamado de conjuntos disjuntos, é uma estrutura que serve para representar grupos separados e descobrir rapidamente se dois elementos pertencem ao mesmo grupo. As duas operações centrais são:
 
-## Conceitos
+Find: identifica o conjunto ao qual um elemento pertence.
+Union: une dois conjuntos.
 
-### Union-Find (Conjuntos Disjuntos)
-Estrutura que mantém uma coleção de conjuntos disjuntos com operações:
-- **Find**: determina a qual conjunto um elemento pertence (com compressão de caminho).
-- **Union**: une dois conjuntos (por rank).
+Ela aparece em algoritmos de grafos, como o algoritmo de Kruskal, usado para encontrar árvores geradoras mínimas. O módulo também destaca otimizações importantes como union by rank e path compression, que tornam as operações mais eficientes.
 
-Aplicações: detecção de ciclos em grafos, algoritmo de Kruskal.
+## Vantagens
+Muito eficiente para agrupamentos
+Operações quase constantes
+## Desvantagens
+Uso específico
+Não serve para busca geral
+## Por que isso acontece?
 
-### Árvores B e B+
-Árvores balanceadas de múltiplos caminhos, otimizadas para armazenamento em disco. Cada nó pode conter várias chaves e filhos.
-- **Árvore B**: chaves e valores distribuídos em todos os nós.
-- **Árvore B+**: valores apenas nas folhas; nós internos funcionam como índice. Folhas são ligadas em lista encadeada.
+É otimizado para operações específicas (union/find), não para tudo.
+
+## Árvores B e B+
+
+As árvores B e B+ são estruturas balanceadas muito usadas em bancos de dados e sistemas de arquivos. Elas foram projetadas para funcionar bem com armazenamento secundário, onde o custo de acesso ao disco é alto. Por isso, são importantes para indexação e organização de grandes volumes de informação.
+
+## Vantagens
+Otimizadas para disco
+Mantêm balanceamento
+## Desvantagens
+Complexas de implementar
+## Por que isso acontece?
+
+Projetadas para reduzir acesso ao disco (custo alto).
 
 ## Linguagem
 
