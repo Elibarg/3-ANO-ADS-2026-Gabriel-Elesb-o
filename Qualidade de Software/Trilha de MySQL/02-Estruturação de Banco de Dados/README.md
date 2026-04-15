@@ -1,6 +1,6 @@
 #  Módulo 02 — Estruturação de Banco de Dados
 > **Trilha de Banco de Dados | UniSENAI 2026**  
-> Autores: William Sestito, Emerson Amancio
+
 
 ---
 

@@ -1,6 +1,5 @@
 #  Módulo 10 — Triggers e Eventos
 > **Trilha de Banco de Dados | UniSENAI 2026**  
-> Autores: William Sestito, Emerson Amancio
 
 ---
 

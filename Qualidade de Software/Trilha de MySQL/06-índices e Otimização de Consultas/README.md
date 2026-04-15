@@ -1,6 +1,5 @@
 #  Módulo 06 — Índices e Otimização de Consultas
 > **Trilha de Banco de Dados | UniSENAI 2026**  
-> Autores: William Sestito, Emerson Amancio
 
 ---
 

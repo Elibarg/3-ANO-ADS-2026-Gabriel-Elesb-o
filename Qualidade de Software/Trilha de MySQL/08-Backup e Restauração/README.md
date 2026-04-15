@@ -1,6 +1,5 @@
 #  Módulo 08 — Backup, Restauração e Exportação de Dados
 > **Trilha de Banco de Dados | UniSENAI 2026**  
-> Autores: William Sestito, Emerson Amancio
 
 ---
 

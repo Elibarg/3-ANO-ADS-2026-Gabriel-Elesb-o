@@ -1,6 +1,5 @@
 #  Módulo 05 — Consultas Avançadas (JOINs e Subconsultas)
 > **Trilha de Banco de Dados | UniSENAI 2026**  
-> Autores: William Sestito, Emerson Amancio
 
 ---
 

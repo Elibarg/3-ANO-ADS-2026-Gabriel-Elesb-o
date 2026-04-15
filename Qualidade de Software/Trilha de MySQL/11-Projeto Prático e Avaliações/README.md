@@ -1,6 +1,5 @@
 #  Módulo 11 — Projeto Prático e Avaliações
 > **Trilha de Banco de Dados | UniSENAI 2026**  
-> Autores: William Sestito, Emerson Amancio
 
 ---
 

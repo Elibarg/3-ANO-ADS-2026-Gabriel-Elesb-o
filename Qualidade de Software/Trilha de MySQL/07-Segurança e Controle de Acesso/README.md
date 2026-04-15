@@ -1,6 +1,5 @@
 #  Módulo 07 — Segurança e Controle de Acesso
 > **Trilha de Banco de Dados | UniSENAI 2026**  
-> Autores: William Sestito, Emerson Amancio
 
 ---
 

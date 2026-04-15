@@ -1,6 +1,5 @@
 #  Módulo 04 — Relacionamento entre Tabelas
 > **Trilha de Banco de Dados | UniSENAI 2026**  
-> Autores: William Sestito, Emerson Amancio
 
 ---
 
