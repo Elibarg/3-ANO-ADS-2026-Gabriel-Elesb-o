@@ -1,0 +1,39 @@
+1. INNER JOIN
+
+Retorna apenas dados que existem nas duas tabelas.
+
+2. LEFT vs RIGHT
+LEFT → mantém tudo da esquerda
+RIGHT → mantém tudo da direita
+3. FULL OUTER JOIN
+
+MySQL não suporta → usa LEFT + RIGHT + UNION
+
+4. Subconsulta simples
+
+Consulta dentro de outra.
+
+5. Subconsulta correlacionada
+
+Executa para cada linha → mais pesada.
+
+6. Funções de agregação
+COUNT
+SUM
+AVG
+MAX
+MIN
+7. GROUP BY
+
+Agrupa dados para análise.
+
+8. HAVING vs WHERE
+WHERE → antes do agrupamento
+HAVING → depois
+9. Cenários práticos
+Total de vendas por cliente
+Média de pedidos
+10. Importância dos JOINs
+
+Sem JOIN → você não conecta dados
+Sem conexão → banco perde sentido

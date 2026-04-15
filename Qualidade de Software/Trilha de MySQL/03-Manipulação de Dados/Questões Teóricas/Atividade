@@ -1,0 +1,74 @@
+1. O que é DML (Data Manipulation Language)?
+
+Resposta:
+DML (Data Manipulation Language) é o conjunto de comandos SQL responsável pela manipulação dos dados dentro das tabelas, ou seja, permite inserir, atualizar, consultar e excluir registros.
+
+Os principais comandos DML são:
+
+INSERT → inserir dados
+UPDATE → atualizar dados
+DELETE → remover dados
+SELECT → consultar dados
+
+# Em outras palavras: DML não mexe na estrutura, só nos dados.
+
+## 2. Qual é a função do comando INSERT INTO?
+
+Resposta:
+O comando INSERT INTO é utilizado para inserir novos registros em uma tabela existente.
+
+Ele exige:
+
+Nome da tabela
+Colunas que receberão valores
+Valores correspondentes
+
+Exemplo conceitual:
+
+INSERT INTO clientes (id_cliente, nome, email)
+VALUES (1, 'João', 'joao@email.com');
+
+# Sem isso, o banco não cresce. É o ponto de entrada dos dados.
+
+## 3. Qual a vantagem de inserir múltiplos registros em uma única instrução?
+
+Resposta:
+Inserir múltiplos registros em uma única instrução:
+
+Reduz o número de comandos executados
+Melhora o desempenho
+Diminui custo de comunicação com o banco
+
+Exemplo:
+
+INSERT INTO clientes (id_cliente, nome)
+VALUES
+(2, 'Maria'),
+(3, 'Carlos');
+
+# Em sistemas reais, isso impacta diretamente performance.
+
+## 4. O que são valores DEFAULT em SQL?
+
+Resposta:
+Valores DEFAULT são valores padrão definidos para uma coluna quando nenhum valor é informado durante a inserção.
+
+Exemplo:
+
+cidade DEFAULT 'Não Informado'
+
+Se você não passar valor:
+→ o banco preenche automaticamente.
+
+# Isso evita dados nulos e mantém consistência.
+
+## 5. Por que a manipulação de dados é considerada um dos pilares do SQL?
+
+Resposta:
+Porque bancos de dados existem para armazenar e trabalhar com dados.
+
+Sem DML:
+
+Não há inserção
+Não há atualização
+Não há uso real do banco

@@ -1,0 +1,53 @@
+1. Índices
+
+Estrutura que acelera busca.
+
+👉 Igual índice de livro — vai direto no ponto.
+
+2. CREATE INDEX vs UNIQUE
+INDEX → melhora performance
+UNIQUE → performance + garante unicidade
+3. Índice composto
+
+Indexa várias colunas.
+
+👉 Só funciona bem se usar na ordem correta.
+
+4. Impacto em INSERT/UPDATE/DELETE
+Mais lento
+Porque o índice precisa ser atualizado
+5. EXPLAIN
+
+Mostra como o banco executa a query
+
+Campos:
+
+type → tipo de busca
+key → índice usado
+rows → linhas analisadas
+6. Full Table Scan
+
+Banco lê TODA tabela.
+
+👉 Em tabela grande = desastre.
+
+7. LIMIT
+
+Reduz dados processados → melhora performance
+
+8. Índices em JOIN
+
+Aceleram conexão entre tabelas
+
+9. Boas práticas
+Não usar SELECT *
+Evitar funções em colunas
+Usar índices corretamente
+10. Agregações
+
+Podem ser pesadas.
+
+👉 Solução:
+
+índices
+reduzir dados

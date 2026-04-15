@@ -1,0 +1,54 @@
+1. Relacionamento entre tabelas
+
+É conexão lógica via PK + FK.
+Sem isso → seu banco vira planilha bagunçada.
+
+2. Chave primária
+Única
+Não nula
+Identifica registro
+
+Sem PK você não tem controle de identidade.
+
+3. Chave estrangeira
+
+Aponta para outra tabela.
+
+Sem isso você cria dados inválidos (ex: pedido sem cliente).
+
+4. Integridade referencial
+
+Garante que:
+
+Não existe referência inválida
+Não quebra relações
+
+Exemplo do PDF: não pode existir pedido com cliente inexistente
+
+5. Tipos de relacionamento
+1:1 → um para um
+1:N → um para muitos
+N:N → muitos para muitos
+6. CASCADE
+DELETE CASCADE → apaga dependentes
+UPDATE CASCADE → atualiza dependentes
+
+Automatiza consistência
+
+7. Tabela intermediária
+
+Resolve N:N.
+
+Sem ela → impossível representar corretamente múltiplos vínculos.
+
+8. Vantagens
+Evita duplicação
+Garante consistência
+Escala melhor
+9. Problemas sem relacionamento
+Dados duplicados
+Dados inconsistentes
+Bugs em sistema
+10. Aplicação real
+E-commerce → pedidos/produtos
+Faculdade → alunos/cursos

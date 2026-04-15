@@ -1,0 +1,73 @@
+1. BACKUP COMPLETO DO BANCO
+# Faz backup completo do banco "biblioteca"
+mysqldump -u root -p biblioteca > biblioteca_backup.sql
+Comentário (importante):
+mysqldump = ferramenta de backup lógico
+-u root = usuário
+-p = pede senha
+> = redireciona saída para arquivo
+
+2. BACKUP DE TABELAS ESPECÍFICAS
+mysqldump -u root -p biblioteca livros autores > backup_parcial.sql
+Comentário:
+Apenas tabelas livros e autores
+Útil para backup seletivo
+
+3. BACKUP DE TODOS OS BANCOS
+mysqldump -u root -p --all-databases > backup_total.sql
+Comentário:
+Backup completo do servidor inteiro
+Muito usado antes de migração
+
+4. BACKUP INCREMENTAL (LOG BINÁRIO)
+-- Ativar logs binários
+SET GLOBAL log_bin = ON;
+Explicação:
+Logs registram alterações (INSERT, UPDATE, DELETE)
+Permitem reconstruir mudanças após último backup
+
+5. RESTAURAÇÃO DE UM BANCO
+mysql -u root -p biblioteca < biblioteca_backup.sql
+Comentário:
+< injeta dados no banco
+Restaura tudo
+
+6. RESTAURAÇÃO TOTAL
+mysql -u root -p < backup_total.sql
+
+7. EXPORTAÇÃO PARA CSV
+SELECT id_cliente, nome, email
+INTO OUTFILE '/var/lib/mysql-files/clientes.csv'
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+FROM clientes;
+Comentário:
+Gera arquivo CSV
+Muito usado para BI / Excel
+
+8. IMPORTAÇÃO DE CSV
+LOAD DATA INFILE '/var/lib/mysql-files/clientes.csv'
+INTO TABLE clientes
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n';
+Comentário:
+Importa dados externos
+Precisa permissões corretas
+
+9. AUTOMAÇÃO COM CRON
+0 2 * * * mysqldump -u root -p biblioteca > /backups/backup_$(date +\%F).sql
+Comentário:
+Executa todo dia às 02:00
+Cria backup automático
+
+10. TESTE DE RESTAURAÇÃO
+# Criar banco de teste
+CREATE DATABASE teste_restore;
+
+# Restaurar backup nele
+mysql -u root -p teste_restore < biblioteca_backup.sql
+Comentário:
+Nunca confie em backup não testado
+Isso é prática real de produção
